@@ -1,124 +1,108 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "funciones.c"
-#include "funciones.h"
+#include <string.h>
+#include "Funciones.h"
 
- int greeting();
- int menu();
- float sum(float a,float b);
- float subtraction(float a, float b);
- float division(float a, float b);
- float multiplication(float a, float b);
- int factorial(int a);
+#define Cant_Personas 20
 
- int main()
+int menu(void);
+
+typedef struct
 {
 
+    char nombre[50];
+    int dni;
+    int edad;
+    int status;
 
-  float ope1=0;
-  float ope2=0;
-  int option,flag1=-1,flag2=-1;
-  int follow='N';
-  int auxil;
-  float aux;
+}ePersonas;
 
+int main()
+{
+    ePersona ArrayPersona[Cant_Personas];
+    int dni;
+    int option=0;
+    int lugarLibre;
+    int resultadoDeBusqueda;
 
+    inicializarArrayPersona (ArrayPersona,Cant_Personas);
 
-  do
-  {
-
-            aux=greeting();
-
+    do
+    {
         option=menu();
 
-         switch(option)
-         {
+        switch(option)
+        {
 
-             case 1:
-                 flag1=-1;
-                printf("Enter 1er operand: ");
-                scanf("%2f",&ope1);
-                if(flag1>=0);
-                 {
-                     flag1=ope1;
-                 }
-                  if(flag1<=0)
-                  {
-                     printf("You must enter an operand:\n\n");
-                  }
+        case 1:
+            lugarLibre=obtenerEspacioLibre(ArrayPersona,Cant_Personas);
+            if(lugarLibre==-1)
+            {
+                printf("\nNO QUEDAN LUGARES LIBRES\n");
+
+            }
+            else
+            {
+
+                printf("\nINGRESE EL NOMBRE:\n");
+                fflush(stdin);
+                scanf("%s",&ArrayPersona[lugarLibre].nombre);
+                ArrayPersona[lugarLibre].status=0;
+
+                printf("\nINGRESE LA EDAD:\n");
+                scanf("%d",&ArrayPersona[lugarLibre].edad);
+
+                printf("\nINGRESE EL DNI:\n");
+                scanf("%d",&ArrayPersona[lugarLibre].dni);
+
+            }
+            break;
+        case 2:
+
+            printf("\nINGRESE EL DNI A BORRAR:\n");
+            scanf("%d",&dni);
+
+            resultadoDeBusqueda=buscarPorDni(ArrayPersona,dni);
+
+            if(resultadoDeBusqueda==-1)
+            {
+                printf("\nEL DNI NO PUDO ENCONTRARSE\n");
                 break;
+            }
+            printf("\nINGRESE EL NUEVO DNI:\n");
 
+        case 3:
 
-             case 2:
-                 flag2=-1;
-                printf("Enter 2do operand:");
-                scanf("%2f",&ope2);
-                if(flag2>=0);
-                 {
-                     flag2=ope2;
+            mostrarOrdenado(ArrayPersona, Cant_Personas);
+            system("pause");
+            break;
 
-                 }
-                  if(flag2<=0)
-                  {
-                     printf("You must enter an operand:\n\n");
-                  }
-                break;
+        case 4:
 
-             case 3:
-                aux=sum(ope1,ope2);
-                printf("The result of the sum is:%.2f\n",aux);
-                break;
+            mostrarGrafico(ArrayPersona,Cant_Personas);
+            system("pause");
+            break;
 
-             case 4:
-                 aux= subtraction(ope1,ope2);
-                 printf("The result of the subtraction is:%.2f\n",aux);
-                 break;
+        case 5:
+            printf("\nSALIR DEL PROGRAMA\n");
 
-             case 5:
-                 aux= division(ope1,ope2);
-                 printf("The result of the division is:%.2f\n",aux);
-                 break;
+        default:
 
-             case 6:
-                 aux= multiplication(ope1,ope2);
-                 printf("The result of the multiplication is:%.2f\n",aux);
-                 break;
+        case 6:
+            break;
+        case 7:
+            break;
+        case 8:
+            break;
+        case 9:
+            break;
 
-             case 7:
-
-                 auxil= factorial(ope1);
-                 printf("The factorial is:%d\n\n",auxil);
-                 break;
-
-             case 8:
-                 aux=sum(ope1,ope2);
-                 printf("The result of the sum is:%.2f\n",aux);
-
-                 aux= subtraction(ope1,ope2);
-                 printf("The result of the subtraction is:%.2f\n",aux);
-
-                 aux= division(ope1,ope2);
-                 printf("The result of the division is:%.2f\n",aux);
-
-                 aux= multiplication(ope1,ope2);
-                 printf("The result of the multiplicacion is:%.2f\n",aux);
-
-                 auxil= factorial(ope1);
-                 printf("The factorial is:%d\n\n",auxil);
-
-                 break;
-
-             case 9:
-
-                follow= 'N';
-
-                break;
+            printf("\nOPCION INCORRECTA\n");
+            system("pause");
+            break;
         }
-  }
-       while(follow!=9);
 
-       return 0;
+    }while(option!='S');
+
+    return 0;
 }
-
-
-
